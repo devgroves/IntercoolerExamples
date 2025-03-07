@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Employee Joining Form</title>
+
+  <!-- Include jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <!-- Include Intercooler.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intercooler-js/1.2.3/intercooler.min.js"></script>
+
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: auto;
+      padding: 20px;
+      border: 1px solid #ddd;
+      background: #f9f9f9;
+      border-radius: 5px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      padding: 10px;
+      background: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      border-radius: 5px;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    .box {
+      padding: 10px;
+      margin-top: 10px;
+      border: 1px solid #ddd;
+      background: #fff3cd;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h2>Employee Joining Form</h2>
+
+    <!-- Form Submission -->
+    <form ic-post-to="/submit-employee" ic-target="#form-response">
+      <div class="form-group">
+        <label>Name:</label>
+        <input type="text" name="name" required>
+      </div>
+      <div class="form-group">
+        <label>Email:</label>
+        <input type="email" name="email" required>
+      </div>
+      <div class="form-group">
+        <label>Mobile Number:</label>
+        <input type="tel" name="mobile" pattern="[0-9]{10}" required>
+      </div>
+      <div class="form-group">
+        <label>Qualification:</label>
+        <input type="text" name="qualification" required>
+      </div>
+      <div class="form-group">
+        <label>Experience (Years):</label>
+        <input type="number" name="experience" min="0" required>
+      </div>
+      <button type="submit">Submit</button>
+    </form>
+
+    <!-- Form Response -->
+    <div id="form-response" class="box">Form response will appear here.</div>
+
+    <!-- Live Server Time -->
+    <h3>Live Server Time</h3>
+    <div ic-get-from="/server-time" ic-poll="3s" class="box">Fetching server time...</div>
+
+  </div>
+
+</body>
+
+</html>

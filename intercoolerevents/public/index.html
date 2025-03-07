@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Intercooler.js AJAX Fix</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/intercooler-js/1.2.3/intercooler.min.js"></script>
+  <script>
+    // Attach Intercooler.js events
+ document.addEventListener('DOMContentLoaded', function () {
+   console.log("Intercooler.js event listeners attached");
+    document.addEventListener('ic-beforeSend', function (e) {
+     console.log('Before Send Event Triggered:', e.detail.settings);
+      const target = document.getElementById('responseMessage');
+      target.innerHTML = ''; // Clear previous response
+    });
+
+    document.addEventListener('ic-success', function (e) {
+      console.log('Success Event Triggered:', e.detail.response);
+      const response = e.detail.response;
+      const target = document.getElementById('responseMessage');
+      target.innerHTML = `<div style="color: green; font-weight: bold;">${response}</div>`;
+    });
+
+    document.addEventListener('ic-error', function (e) {
+      console.log('Error Event Triggered:', e.detail.response);
+      const response = e.detail.response;
+      const target = document.getElementById('responseMessage');
+      target.innerHTML = `<div style="color: red; font-weight: bold;">${response}</div>`;
+    });
+  });
+  </script>
+</head>
+<body>
+  <h1>Intercooler.js Event Example</h1>
+  
+  <form ic-post-to="http://localhost:3000/mock-api" ic-indicator="#loading" ic-target="#responseMessage">
+    <label for="input">Enter Input (success or failure):</label>
+    <input type="text" id="input" name="input"  required >
+    <button type="submit">Submit</button>
+  </form>
+  <div id="responseMessage"> 
+    <!-- Server responses will appear here -->
+</div>
+
+</body>
+
+</html>

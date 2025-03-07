@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Button Animations with Intercooler.js and jQuery</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/intercooler-js/1.2.0/intercooler.min.js"></script>
+
+  <style>
+    /* Button Styling */
+    .btn {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.5s ease-in-out;
+      background-color: rgb(43, 80, 231); 
+    }
+.btn.ic-transitioning {
+  transform: scale(1.1); /* Slight zoom effect */
+  background-color: #3b5998; /* Change button color */
+  color: white; /* Change text color */
+}
+    .fade {
+  animation: fade 1s ease;
+}
+    .bounce {
+      animation: bounce 1s ease infinite;
+    }
+
+    .shake {
+      animation: shake 0.5s ease;
+    }
+
+    .zoom {
+      animation: zoom 0.5s ease;
+    }
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+    @keyframes bounce {
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    @keyframes shake {
+
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+
+      25% {
+        transform: translateX(-5px);
+      }
+
+      50% {
+        transform: translateX(5px);
+      }
+
+      75% {
+        transform: translateX(-5px);
+      }
+    }
+
+    @keyframes zoom {
+      0% {
+        transform: scale(1);
+      }
+
+      100% {
+        transform: scale(1.2);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <script>
+  $(document).on('ic-after-update', function (event, elt, data) {
+    console.log("Intercooler event triggered, response data:", data);
+    try {
+      // Parse the JSON response
+      let jsonData = (typeof data === "string") ? JSON.parse(data) : data;
+
+      if (jsonData && jsonData.animation) {
+        console.log("Applying animation:", jsonData.animation);
+
+        // Apply the animation class dynamically
+        $('#myButton').removeClass("bounce shake zoom fade").addClass(jsonData.animation);
+
+        // Remove the animation class after animation ends
+        setTimeout(() => {
+          $('#myButton').removeClass(jsonData.animation);
+        }, 1000); // Duration matches the animations
+      } else {
+        console.error("Invalid response format:", jsonData);
+      }
+    } catch (error) {
+      console.error("Error parsing response:", error, "Data received:", data);
+    }
+  });
+  </script>
+
+  <button id="myButton" class="btn" ic-get-from="/api/animation" ic-trigger="click" ic-target="#myButton" ic-response-type="json" 
+  ic-debug="true"ic-transition-duration="500ms">
+ Click Me
+  </button>
+
+
+</body>
+
+</html>

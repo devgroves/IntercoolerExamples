@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Infinite Scrolling Weather</title>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/intercooler-js/1.2.3/intercooler.min.js"></script>
+  <style>
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .table th,
+    .table td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+    }
+
+    .table th {
+      background-color: #f4f4f4;
+    }
+
+    #indicator {
+      margin-top: 20px;
+      color: #007bff;
+    }
+  </style>
+</head>
+
+<body>
+  <h2>Weather Data</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Time</th>
+        <th>Temperature (°C)</th>
+        <th>Humidity (%)</th>
+        <th>Wind Speed (km/h)</th>
+      </tr>
+    </thead>
+    <tbody id="weatherTableBody">
+      <tr ic-append-from="/weather?start=0&limit=10" ic-trigger-on="scrolled-into-view" ic-target="#weatherTableBody" ic-indicator="#indicator">
+        <td>Loading more data...</td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <center>
+    <i class="fa fa-spinner fa-spin fa-5x" id="indicator" style="display: none;"></i>
+  </center>
+</body>
+
+</html>
