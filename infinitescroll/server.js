@@ -7,19 +7,16 @@ const port = 3000;
 // API URL
 const API_URL = 'https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&past_days=10&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m';
 
-// Serve the index.html file
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Serve static files
 app.use(express.static(path.join(__dirname)));
 
-// Weather route
-app.get('/weather', async (req, res) => {
-  const start = parseInt(req.query.start) || 0; // Default start index
-  const limit = parseInt(req.query.limit) || 10; // Default batch size
 
+app.get('/weather', async (req, res) => {
+  const start = parseInt(req.query.start) || 0; 
+  const limit = parseInt(req.query.limit) || 10; 
   try {
     console.log(`Request received with start=${start}, limit=${limit}`);
     console.log(`Slicing data from index ${start} to ${start + limit}`);
@@ -27,13 +24,9 @@ app.get('/weather', async (req, res) => {
     res.set('Cache-Control', 'no-store');
     const response = await axios.get(API_URL);
     const data = response.data;
-
-    // Validate API response
     if (!data.hourly || !data.hourly.time) {
       throw new Error('Invalid API response');
     }
-
-    // Slice data for infinite scrolling
     let html = '';
     for (let i = start; i < start + limit; i++) {
       if (i < data.hourly.time.length) {
