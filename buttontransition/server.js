@@ -7,11 +7,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Set up a mock API endpoint to return animation types
 app.get('/api/animation', (req, res) => {
-  console.log('API Request received');
-    const animations = ['bounce', 'shake', 'fade', 'zoom'];
-    const randomAnimation = animations[Math.floor(Math.random() * animations.length)];
-    res.json({ animation: randomAnimation });
-    
+    console.log('API Request received', req.query);
+    const elementId = req.query['ic-element-id'];
+
+    // const animations = ['bounce', 'shake', 'fade', 'zoom'];
+    console.log("random animation choosen", elementId);
+    if (elementId === "bounceBtn") 
+      res.status(200).send("Bounce Off");
+    else if (elementId === "shakeBtn")
+      res.status(200).send("I am shaking!");
 });
 
 // Start the server on port 3000

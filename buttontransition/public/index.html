@@ -14,74 +14,45 @@
       padding: 10px 20px;
       font-size: 16px;
       cursor: pointer;
-      transition: all 0.5s ease-in-out;
-      background-color: rgb(43, 80, 231); 
-    }
-.btn.ic-transitioning {
-  transform: scale(1.1); /* Slight zoom effect */
-  background-color: #3b5998; /* Change button color */
-  color: white; /* Change text color */
-}
-    .fade {
-  animation: fade 1s ease;
-}
-    .bounce {
-      animation: bounce 1s ease infinite;
+      transition: all 1s ease-in-out;
+      background-color: rgb(43, 80, 231);
     }
 
-    .shake {
-      animation: shake 0.5s ease;
+    #bounceBtn.ic-transitioning {
+      transform: scale(1.1);
+      font-size: 20px;
+      /* Slight zoom effect */
+      background-color: #d62f19;
+      /* Change button color */
+      color: white;
+      /* Change text color */
     }
 
-    .zoom {
-      animation: zoom 0.5s ease;
-    }
-@keyframes fade {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-    @keyframes bounce {
-      0%,
-      100% {
-        transform: translateY(0);
-      }
-
-      50% {
-        transform: translateY(-10px);
-      }
+    #shakeBtn.ic-transitioning {
+      animation: shake 1s ease-out;
+      background-color:  green;
+      color: white;
     }
 
     @keyframes shake {
-
-      0%,
-      100% {
-        transform: translateX(0);
+      0% {
+          transform: skewX(-10deg);
       }
 
       25% {
-        transform: translateX(-5px);
+          transform: skewX(10deg);
       }
 
       50% {
-        transform: translateX(5px);
+          transform: skewX(-10deg);
       }
 
       75% {
-        transform: translateX(-5px);
-      }
-    }
-
-    @keyframes zoom {
-      0% {
-        transform: scale(1);
+          transform: skewX(10deg);
       }
 
       100% {
-        transform: scale(1.2);
+          transform: skewX(-10deg);
       }
     }
   </style>
@@ -89,35 +60,21 @@
 
 <body>
   <script>
-  $(document).on('ic-after-update', function (event, elt, data) {
-    console.log("Intercooler event triggered, response data:", data);
-    try {
-      // Parse the JSON response
-      let jsonData = (typeof data === "string") ? JSON.parse(data) : data;
-
-      if (jsonData && jsonData.animation) {
-        console.log("Applying animation:", jsonData.animation);
-
-        // Apply the animation class dynamically
-        $('#myButton').removeClass("bounce shake zoom fade").addClass(jsonData.animation);
-
-        // Remove the animation class after animation ends
-        setTimeout(() => {
-          $('#myButton').removeClass(jsonData.animation);
-        }, 1000); // Duration matches the animations
-      } else {
-        console.error("Invalid response format:", jsonData);
-      }
-    } catch (error) {
-      console.error("Error parsing response:", error, "Data received:", data);
-    }
-  });
+    $(document).on('ic-after-update', function (event, elt, data) {
+      console.log("Intercooler event triggered, response data:", data);
+    });
   </script>
 
-  <button id="myButton" class="btn" ic-get-from="/api/animation" ic-trigger="click" ic-target="#myButton" ic-response-type="json" 
-  ic-debug="true"ic-transition-duration="500ms">
- Click Me
+  <button id="bounceBtn" class="btn" ic-get-from="/api/animation" ic-trigger="click" ic-target="#bounceBtn"
+    ic-response-type="json" ic-debug="true" ic-transition-duration="1000ms">
+    Bounce
   </button>
+  <br/><br/><br/><br/>
+  <button id="shakeBtn" class="btn" ic-get-from="/api/animation" ic-trigger="click" ic-target="#shakeBtn"
+    ic-response-type="json" ic-debug="true" ic-transition-duration="1000ms">
+    Shake
+  </button>
+
 
 
 </body>
