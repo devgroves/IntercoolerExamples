@@ -55,6 +55,16 @@
   <center>
     <i class="fa fa-spinner fa-spin fa-5x" id="indicator" style="display: none;"></i>
   </center>
+  <script>
+    document.addEventListener('ic-beforeSend', function (e) {
+      console.log('Request delayed before sending...');
+      e.detail.process = new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(); 
+        }, 3000); // 3-second delay
+      });
+    });
+  </script>
 </body>
 
 </html>
