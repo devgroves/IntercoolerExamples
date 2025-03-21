@@ -9,74 +9,199 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/intercooler-js/1.2.0/intercooler.min.js"></script>
 
   <style>
-    /* Button Styling */
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f0f0f0;
+      font-family: Arial, sans-serif;
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      top: 50%;
+      gap: 20px;
+      padding: 20px;
+      background: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
     .btn {
-      padding: 10px 20px;
+      padding: 15px 20px;
       font-size: 16px;
       cursor: pointer;
-      transition: all 1s ease-in-out;
+      transition: all 0.5s ease-in-out;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      text-transform: uppercase;
+    }
+
+    #bounceBtn {
       background-color: rgb(43, 80, 231);
     }
 
-    #bounceBtn.ic-transitioning {
-      transform: scale(1.1);
-      font-size: 20px;
-      /* Slight zoom effect */
-      background-color: #d62f19;
-      /* Change button color */
-      color: white;
-      /* Change text color */
+    #shakeBtn {
+      background-color: green;
     }
 
-    #shakeBtn.ic-transitioning {
-      animation: shake 1s ease-out;
-      background-color:  green;
-      color: white;
+    #zoomBtn {
+      background-color: rgb(204, 174, 67);
+    }
+
+    #newZoomBtn {
+      background-color: darkcyan;
+    }
+
+    #flipBtn {
+      background-color: darkblue;
+    }
+
+    #spinBtn {
+      background-color: purple;
+    }
+
+    #fadeBtn {
+      background-color: crimson;
+    }
+
+    /* Animation Effects */
+    @keyframes bounce {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    #bounceBtn.ic-transitioning {
+      animation: bounce 1s ease-in-out;
     }
 
     @keyframes shake {
       0% {
-          transform: skewX(-10deg);
+        transform: skewX(-10deg);
       }
 
-      25% {
-          transform: skewX(10deg);
+      25%,
+      75% {
+        transform: skewX(10deg);
       }
 
       50% {
-          transform: skewX(-10deg);
-      }
-
-      75% {
-          transform: skewX(10deg);
+        transform: skewX(-10deg);
       }
 
       100% {
-          transform: skewX(-10deg);
+        transform: skewX(0);
       }
+    }
+
+    #shakeBtn.ic-transitioning {
+      animation: shake 1s ease-out;
+    }
+
+    @keyframes zoom {
+      0% {
+        transform: scale(1);
+      }
+
+      100% {
+        transform: scale(1.2);
+      }
+    }
+
+    #zoomBtn.ic-transitioning {
+      animation: zoom 1s ease-out;
+    }
+    @keyframes flip {
+      0% {
+        transform: rotateY(0);
+      }
+
+      50% {
+        transform: rotateY(180deg);
+        background-color: crimson;
+      }
+
+      100% {
+        transform: rotateY(360deg);
+        background-color: darkblue;
+        color: white;
+      }
+    }
+
+    #flipBtn.ic-transitioning {
+      animation: flip 1.2s ease-in-out;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    #spinBtn.ic-transitioning {
+      animation: spin 1.5s ease-in-out;
+    }
+
+    @keyframes fade {
+      0% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.5;
+      }
+
+      100% {
+        opacity: 1;
+      }
+    }
+
+    #fadeBtn.ic-transitioning {
+      animation: fade 1.2s ease-in-out;
     }
   </style>
 </head>
 
 <body>
-  <script>
-    $(document).on('ic-after-update', function (event, elt, data) {
-      console.log("Intercooler event triggered, response data:", data);
-    });
-  </script>
-
-  <button id="bounceBtn" class="btn" ic-get-from="/api/animation" ic-trigger="click" ic-target="#bounceBtn"
-    ic-response-type="json" ic-debug="true" ic-transition-duration="1000ms">
-    Bounce
-  </button>
-  <br/><br/><br/><br/>
-  <button id="shakeBtn" class="btn" ic-get-from="/api/animation" ic-trigger="click" ic-target="#shakeBtn"
-    ic-response-type="json" ic-debug="true" ic-transition-duration="1000ms">
-    Shake
-  </button>
-
-
-
+  <div>
+      <h1 style="text-align: center; margin-bottom: 30px; font-family: Arial, sans-serif; color: #333;">
+    Button Animation using intercooler-js</h1>
+ 
+    <div class="grid-container">
+      <button id="bounceBtn" class="btn" ic-get-from="/api/animation" ic-trigger="click" ic-target="#bounceBtn" ic-response-type="json" ic-transition-duration="1000ms">
+        Bounce
+      </button>
+      <button id="shakeBtn" class="btn" ic-get-from="/api/animation" ic-trigger="click" ic-target="#shakeBtn" ic-response-type="json" ic-transition-duration="1000ms">
+        Shake
+      </button>
+      <button id="zoomBtn" class="btn" ic-get-from="/api/animation" ic-trigger="click" ic-target="#zoomBtn" ic-response-type="json" ic-transition-duration="1000ms">
+        Zoom
+      </button>
+      <button id="flipBtn" class="btn" ic-get-from="/api/animation" ic-trigger="click" ic-target="#flipBtn" ic-response-type="json" ic-transition-duration="1000ms">
+        Flip
+      </button>
+      <button id="spinBtn" class="btn" ic-get-from="/api/animation" ic-trigger="click" ic-target="#spinBtn" ic-response-type="json" ic-transition-duration="1000ms">
+        Spin
+      </button>
+      <button id="fadeBtn" class="btn" ic-get-from="/api/animation" ic-trigger="click" ic-target="#fadeBtn" ic-response-type="json" ic-transition-duration="1000ms">
+        Fade
+      </button>
+    </div>
+  </div>
+ 
 </body>
 
 </html>
