@@ -30,9 +30,37 @@
     }
   </style>
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      console.log("Intercooler.js event listeners attached");
+     
 
+
+      console.log("is it going here..");
+      $(document).on('beforeAjaxSend.ic', function(event, ajaxSetup, elt){
+          console.log("before ajax send events");
+          $("#submitbtn").html(`<span class="loader"></span> Loading...`); // Replace with loader animation
+          $("#submitbtn").disabled = true; // Disable button during AJAX
+      });
+
+      $(document).on('success.ic', function(evt, elt, data, textStatus, xhr, requestId){
+          console.log("error ajax send events");
+          console.log('Error Event Triggered:', evt);
+
+          $("#submitbtn").html(`Submit`); // Replace with loader animation
+          $("#submitbtn").disabled = false; // Disable button during AJAX
+
+         $("#responseMessage").html(`<div style="color: green; font-weight: bold;">${data} - ${textStatus}</div>`);
+      });
+
+      $(document).on('error.ic', function(evt, elt, status, str, xhr){
+          console.log("error ajax send events");
+          console.log('Error Event Triggered:', evt);
+
+          $("#submitbtn").html(`Submit`); // Replace with loader animation
+          $("#submitbtn").disabled = false; // Disable button during AJAX
+
+         $("#responseMessage").html(`<div style="color: red; font-weight: bold;">${status} - ${str}</div>`);
+      });
+          
+     
       // Attach event to show the loader inside the button on ic-beforeSend
       document.addEventListener('ic-beforeSend', function (e) {
         console.log('Before Send Event Triggered:', e.detail.settings);
@@ -74,7 +102,6 @@
         const target = document.getElementById('responseMessage');
         target.innerHTML = `<div style="color: red; font-weight: bold;">${response}</div>`;
       });
-    });
   </script>
 </head>
 
@@ -84,7 +111,7 @@
   <form ic-post-to="http://localhost:3000/mock-api" ic-target="#responseMessage">
     <label for="input">Enter Input (success or failure):</label>
     <input type="text" id="input" name="input" required>
-    <button type="submit">Submit</button>
+    <button id="submitbtn" type="submit">Submit</button>
   </form>
 
   <div id="responseMessage"></div>

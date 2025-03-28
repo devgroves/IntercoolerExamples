@@ -22,9 +22,9 @@ app.post('/mock-api', (req, res) => {
   if (input === 'success') {
     return res.status(200).send('<div style="color: green; font-weight: bold;">Success! Data was processed correctly.</div>');
   } else if (input === 'failure') {
-    return res.status(400).send('<div style="color: red; font-weight: bold;">Failure! Invalid input provided.</div>');
+    return res.status(200).send('<div style="color: red; font-weight: bold;">Failure! Invalid input provided.</div>');
   } else {
-    return res.status(500).send('<div style="color: red; font-weight: bold;">Error! Something went wrong on the server.</div>');
+    return res.status(500).send('Error! Something went wrong on the server.');
   }
 });
 
