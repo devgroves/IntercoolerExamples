@@ -61,47 +61,7 @@
       });
           
      
-      // Attach event to show the loader inside the button on ic-beforeSend
-      document.addEventListener('ic-beforeSend', function (e) {
-        console.log('Before Send Event Triggered:', e.detail.settings);
-
-        const button = e.target.querySelector('button[type="submit"]');
-        if (button) {
-          button.dataset.originalContent = button.innerHTML; // Save original button content
-          button.innerHTML = `<span class="loader"></span> Loading...`; // Replace with loader animation
-          button.disabled = true; // Disable button during AJAX
-        }
-      });
-
-      // Revert button content on success
-      document.addEventListener('ic-success', function (e) {
-        console.log('Success Event Triggered:', e.detail.response);
-
-        const button = e.target.querySelector('button[type="submit"]');
-        if (button) {
-          button.innerHTML = button.dataset.originalContent; // Restore original content
-          button.disabled = false; // Re-enable button
-        }
-
-        const response = e.detail.response;
-        const target = document.getElementById('responseMessage');
-        target.innerHTML = `<div style="color: green; font-weight: bold;">${response}</div>`;
-      });
-
-      // Revert button content on error
-      document.addEventListener('ic-error', function (e) {
-        console.log('Error Event Triggered:', e.detail.response);
-
-        const button = e.target.querySelector('button[type="submit"]');
-        if (button) {
-          button.innerHTML = button.dataset.originalContent; // Restore original content
-          button.disabled = false; // Re-enable button
-        }
-
-        const response = e.detail.response;
-        const target = document.getElementById('responseMessage');
-        target.innerHTML = `<div style="color: red; font-weight: bold;">${response}</div>`;
-      });
+      
   </script>
 </head>
 
