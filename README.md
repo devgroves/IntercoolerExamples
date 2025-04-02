@@ -72,6 +72,18 @@ This example demonstrates how to implement smooth button transitions and animati
   background-color: #3b5998; /* Change button color */
   color: white; /* Change text color */
 }
+# 5.intercooler events  
+
+### Description
+
+This code demonstrates how to handle AJAX events with Intercooler.js, showing loader animations, disabling buttons during requests, and dynamically displaying success or error messages in a responsive form interface. It includes jQuery event listeners for beforeAjaxSend.ic, success.ic, and error.ic to enhance user interactions by updating the UI based on request status.
+### Code Snippet 
+- **HTML**
+ <form ic-post-to="http://localhost:3000/mock-api" ic-target="#responseMessage">
+    <label for="input">Enter Input (success or failure):</label>
+    <input type="text" id="input" name="input" required>
+    <button id="submitbtn" type="submit">Submit</button>
+  </form>
 # How to Run the Project
 ## Install Dependencies
 You can add **intercooler.js** to your project either by using a CDN or installing it via npm.
@@ -97,3 +109,5 @@ You can add **intercooler.js** to your project either by using a CDN or installi
 ![polling](./polling.gif)
 4. **Button Transition**:
 ![Button Transition](./btntransition.gif)
+5. **intercooler events**:
+![Intercooler events](./intercoolerevents.gif)

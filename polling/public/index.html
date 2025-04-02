@@ -4,22 +4,61 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Polling with Intercooler.js</title>
+  <title>Working Intercooler Polling</title>
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/intercooler-js/1.2.3/intercooler.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
- 
-</head>
-<body>
-  <h2>Weather Data (Polling with Intercooler.js)</h2>
+  <style>
+    #weatherContainer {
+      margin: 20px 0;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background: #f8f9fa;
+    }
 
-  <!-- Polling Element -->
-  <span ic-poll="2s" ic-src="/poll_example" ic-trigger-on="load">
-    Loading weather data...
-  </span>
-<div id="loadingIndicator" style="display: none; color: rgb(20, 20, 21);">
-  Polling in progress...
-</div>
+    .loading-indicator {
+      display: none;
+      color: #0d6efd;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <h2>Real-Time Weather Updates</h2>
+
+  <!-- Loading Indicator -->
+  <div class="loading-indicator" ic-indicator>
+    <i class="fas fa-sync-alt fa-spin"></i> Updating...
+  </div>
+
+  <!-- Polling Container -->
+  <div id="weatherContainer" ic-get-from="/poll_example?lat=52.52&long=13.41" ic-poll="2s" ic-trigger-on="load;every 2s" ic-indicator=".loading-indicator">
+    Loading initial data...
+  </div>
+  <script>
+    $(document).ready(function () { 
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          function (position) {
+            const newSrc = `/poll_example?lat=${position.coords.latitude}&long=${position.coords.longitude}`;
+            $('#weatherContainer')
+              .attr('ic-get-from', newSrc)
+              .removeAttr('ic-last-url');
+          },
+          function (error) {
+            console.log("Using default location due to:", error.message);
+          }
+        );
+      }
+      $(document).on('beforeAjaxSend.ic', function (evt, ajaxSetup) {
+        if (ajaxSetup.url.includes('/poll_example')) {
+          ajaxSetup.url += `&_=${Date.now()}`;
+        }
+      });
+    });
+  </script>
 </body>
 
 </html>
